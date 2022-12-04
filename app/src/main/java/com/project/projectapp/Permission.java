@@ -1,10 +1,14 @@
 package com.project.projectapp;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.app.AppOpsManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -56,9 +60,16 @@ public class Permission {
                         // TODO [AndroidManifest.xml 에 등록된 퍼미션 등록]
                         .setPermissions(
                                 // -----------------------------------------
+                                // [휴대폰 상태 체크]
+//                                Manifest.permission.READ_PHONE_STATE,
+                                // -----------------------------------------
                                 // [블루투스 권한]
                                 Manifest.permission.BLUETOOTH,
                                 Manifest.permission.BLUETOOTH_ADMIN,
+                                // -----------------------------------------
+                                // [저장소 권한 : application >> android:requestLegacyExternalStorage="true" 등록 필요]
+//                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                                Manifest.permission.READ_EXTERNAL_STORAGE,
                                 // -----------------------------------------
                                 // [위치 권한]
                                 Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -67,7 +78,10 @@ public class Permission {
                                 // TODO [타겟 31 대응 >> 블루투스 권한 추가]
                                 Manifest.permission.BLUETOOTH_SCAN,
                                 Manifest.permission.BLUETOOTH_ADVERTISE,
-                                Manifest.permission.BLUETOOTH_CONNECT
+                                Manifest.permission.BLUETOOTH_CONNECT,
+                                // -----------------------------------------
+                                // [카메라 권한]
+                                Manifest.permission.CAMERA
                                 // -----------------------------------------
                         )
                         .check();
@@ -81,15 +95,25 @@ public class Permission {
                         // TODO [AndroidManifest.xml 에 등록된 퍼미션 등록]
                         .setPermissions(
                                 // -----------------------------------------
+                                // [휴대폰 상태 체크]
+//                                Manifest.permission.READ_PHONE_STATE,
+                                // -----------------------------------------
                                 // [블루투스 권한]
                                 Manifest.permission.BLUETOOTH,
                                 Manifest.permission.BLUETOOTH_ADMIN,
                                 // -----------------------------------------
                                 // [위치 권한]
                                 Manifest.permission.ACCESS_COARSE_LOCATION,
-                                Manifest.permission.ACCESS_FINE_LOCATION
+                                Manifest.permission.ACCESS_FINE_LOCATION,
                                 // -----------------------------------------
-                        )
+                                // [저장소 권한 : application >> android:requestLegacyExternalStorage="true" 등록 필요]
+//                                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+//                                Manifest.permission.READ_EXTERNAL_STORAGE,
+                                // -----------------------------------------
+                                // [카메라 권한]
+                                Manifest.permission.CAMERA
+                                // -----------------------------------------
+                            )
                         .check();
 
             }
@@ -99,6 +123,7 @@ public class Permission {
             e.printStackTrace();
         }
     }
+
     // TODO [퍼미션이 부여 되었는지 확인 메소드]
     static PermissionListener permissionlistener = new PermissionListener() {
         @Override
@@ -108,6 +133,10 @@ public class Permission {
             Log.i("","\n"+"[C_Permission >> checkPermission() :: 전체 퍼미션 부여 확인 성공]");
             Log.w("//===========//","================================================");
             Log.i("---","---");
+            // -----------------------------------------
+            // [QueryAllPackagesPermission 권한 부여 확인 >> 사용자 모바일 접근성 권한 체크]
+            checkQueryAllPackages(context);
+            // -----------------------------------------
         }
         @Override
         public void onPermissionDenied(List<String> deniedPermissions) {
@@ -135,7 +164,84 @@ public class Permission {
         }
     };
 
+    // TODO [QueryAllPackagesPermission 앱 설정 창 이동]
+    public static void checkQueryAllPackages(Context mContext){
+        // -----------------------------------------
+        // TODO [필요 퍼미션 : Android Q 이상 버전에서 원격 제어앱 탐지를 위해 사용자 정보 접근 권한 필요]
+        /**
+         <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions"/>
+         <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"
+         tools:ignore="QueryAllPackagesPermission" />
+         */
+        // -----------------------------------------
 
+        // TODO [안드로이드 os 9 버전 이상 체크 수행 실시]
+        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) && !isAccessGranted(mContext)){
+            Log.i("---","---");
+            Log.e("//===========//","================================================");
+            Log.i("","\n"+"[C_Permission >> checkQueryAllPackages() :: 앱 쿼리 권한 상태 확인]");
+            Log.i("","\n"+"[상태 :: "+"Android Q 버전 이상 >> 앱 쿼리 권한 부여되지 않은 상태 >> 앱 쿼리 권한 설정 창 이동 실시"+"]");
+            Log.e("//===========//","================================================");
+            Log.i("---","---");
+            // -----------------------------------------
+            // [Alert 팝업창 알림 실시]
+            getAlertDialog(
+                    context,
+                    1, // [설정창 이동 타입 지정]
+                    AL_TITLE,
+                    AL_NQA,
+                    AL_SET,
+                    AL_NO,
+                    "");
+            // -----------------------------------------
+        }
+        else if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) && isAccessGranted(mContext)) {
+            Log.i("---","---");
+            Log.w("//===========//","================================================");
+            Log.i("","\n"+"[C_Permission >> checkQueryAllPackages() :: 앱 쿼리 권한 상태 확인]");
+            Log.i("","\n"+"[상태 :: "+"Android Q 버전 이상 >> 앱 쿼리 권한 부여된 상태"+"]");
+            Log.w("//===========//","================================================");
+            Log.i("---","---");
+        }
+        else {
+            Log.i("---","---");
+            Log.e("//===========//","================================================");
+            Log.i("","\n"+"[C_Permission >> checkQueryAllPackages() :: 앱 쿼리 권한 상태 확인]");
+            Log.i("","\n"+"[상태 :: "+"Android Q 버전 미만 단말기"+"]");
+            Log.e("//===========//","================================================");
+            Log.i("---","---");
+        }
+    }
+
+    // TODO [타겟 api 설정 실시]
+    @TargetApi(Build.VERSION_CODES.Q)
+    private static boolean isAccessGranted(Context mContext) {
+        boolean granted = false; // 권한 부여 상태값 저장
+        int mode = -1;
+        PackageManager pm;
+        ApplicationInfo app;
+        AppOpsManager appOpsManager;
+        try {
+            // [AppOpsManager 서비스 객체 생성 실시]
+            appOpsManager = (AppOpsManager) mContext.getSystemService(Context.APP_OPS_SERVICE);
+
+            pm = mContext.getPackageManager();
+            app = pm.getApplicationInfo(mContext.getPackageName(), 0);
+            // [권한 부여 상태값 얻오온다]
+            if (appOpsManager != null) {
+                mode = appOpsManager.unsafeCheckOpNoThrow(AppOpsManager.OPSTR_GET_USAGE_STATS, app.uid, app.packageName);
+            }
+            // [권한 부여가 된 경우]
+            if (mode == AppOpsManager.MODE_ALLOWED) {
+                granted = true;
+            }
+        }
+        catch (Throwable why) {
+            //why.printStackTrace();
+        }
+        // [결과 반환 실시]
+        return granted;
+    }
 
     //TODO [권한 거부 시 팝업창 호출 부분]
     public static void getAlertDialog(Context mContext, int type, String header, String content, String ok, String no, String normal){

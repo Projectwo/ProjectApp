@@ -1,6 +1,5 @@
 plugins {
     id 'com.android.application'
-
     // Add the Google services Gradle plugin
     id 'com.google.gms.google-services'
 
@@ -29,6 +28,8 @@ android {
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
     }
 }
 
@@ -41,8 +42,12 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-
     implementation 'io.github.ParkSangGwon:tedpermission-normal:3.3.0'   // permission
+
+    // QR 라이브러리
+    implementation 'com.journeyapps:zxing-android-embedded:4.1.0'
+    implementation 'com.github.kenglxn.QRGen:android:2.6.0'
+    implementation "com.google.zxing:core:3.3.0"
 
     // [altbeacon : 비콘 스캔 및 신호 활성 라이브러리]
     implementation 'org.altbeacon:android-beacon-library:2.+' // [최신 버전 사용]
@@ -51,11 +56,10 @@ dependencies {
 
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:31.1.0')
+    implementation 'com.google.firebase:firebase-database:20.1.0'
 
     // TODO: Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation 'com.google.firebase:firebase-analytics'
 
-    // Add the dependencies for any other desired Firebase products
-    // https://firebase.google.com/docs/android/setup#available-libraries
 }

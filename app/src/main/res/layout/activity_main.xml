@@ -8,18 +8,19 @@
 
     <WebView
         android:id="@+id/main_webview"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="411dp"
+        android:layout_height="731dp"
         android:background="#000000"
         android:smoothScrollbar="true"
         android:text="web_view"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        tools:layout_editor_absoluteX="0dp"
+        tools:ignore="MissingConstraints"></WebView>
 
     <TextView
-    android:id="@+id/beacon_info"
+        android:id="@+id/beacon_info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
@@ -32,13 +33,14 @@
         android:id="@+id/button3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="160dp"
         android:onClick="onButton1Clicked"
-        android:text="클릭버튼"
+        android:text="Beacon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintVertical_bias="0.714" />
+        app:layout_constraintStart_toEndOf="@+id/main_webview"
+        app:layout_constraintStart_toStartOf="@+id/main_webview" />
 
     <androidx.constraintlayout.widget.Barrier
         android:layout_width="wrap_content"
@@ -52,7 +54,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_begin="683dp" />
+        app:layout_constraintGuide_percent="0.93433654" />
 
+    <Button
+        android:id="@+id/qrBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="QR"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button3"
+        app:layout_constraintStart_toStartOf="parent"
+
+        />
+<!--android:onClick="runQRcodeReader"-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
