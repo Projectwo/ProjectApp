@@ -16,7 +16,6 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.ConsoleMessage;
-import android.webkit.CookieManager;
 import android.webkit.HttpAuthHandler;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
@@ -43,46 +42,15 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements BeaconConsumer {
 
+    /*
+    * TODO: webview 주소가 https://groupprojectwo.com/main일 때 버튼 출력
+    *       출력버튼 클릭 시 로직(QR/Beacon)체크 수행
+    *       출석 확인되었을 때 Spring Contorller의 mapping 주소로 
+    *       webview loadUrl 변경(main_webview.loadUrl(url);)
+    *  */
+    String currentUrl;      // webView내부 주소
     String ACTIVITY_NAME = "ACTIVITY_NAME";
-
-    private class MyWebViewClient extends WebViewClient {
-
-        @Override
-        public void onPageStarted(WebView view, String url, Bitmap favicon) {
-            super.onPageStarted(view, url, favicon);
-        }
-
-        @Override
-        public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            if ("www.naver.com".equals(Uri.parse(url).getHost())) {
-                // This is my website, so do not override; let my WebView load the page
-                return false;
-            }
-            // Otherwise, the link is not for a page on my site, so launch another Activity that handles URLs
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-            startActivity(intent);
-            return true;
-        }
-    }
-
-
-    public class WebAppInterface {
-        Context mContext;
-
-        /** Instantiate the interface and set the context */
-        WebAppInterface(Context c) {
-            mContext = c;
-        }
-
-        /** Show a toast from the web page */
-        @JavascriptInterface
-        public void showToast(String toast) {
-            Toast.makeText(mContext, toast, Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-
+    
     public void onButton1Clicked(View v){
         beaconSettiong();
         //startBeaconSend(sendUuid, sendMajor, sendMinor);
@@ -91,8 +59,6 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
         Toast.makeText(this, "BeaconScan", Toast.LENGTH_SHORT).show();
 
     }
-
-
 
     //WebView
     ///////////////////////////////////////////////
@@ -292,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements BeaconConsumer {
             Log.i("","\n"+"[설 명 :: "+String.valueOf("로드 완료")+"]");
             Log.w("//===========//","================================================");
             Log.i("---","---");
+            currentUrl = String.valueOf(main_webview.getUrl());
         }
         // [오류가 났을 경우, 오류는 복수할 수 없음]
         @Override
