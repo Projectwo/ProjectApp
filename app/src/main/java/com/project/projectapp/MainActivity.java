@@ -677,7 +677,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                     Log.i("---","---");
                     Log.w("//===========//","================================================");
                     Log.i("","\n"+"[MainActivity >> AndroidBridge :: open() [NONE] :: JS >> Android]");
-                    Log.i("","\n"+"[전달받은 데이터 :: "+String.valueOf(UserIdx)+"]");
+                    Log.i("","\n"+"[전달받은 데이터 :: "+String.valueOf(UserIdx+ " " +courseId + " " + date )+"]");
                     Log.i("","\n"+"[설 명 :: "+String.valueOf("이벤트 발생 전달")+"]");
                     Log.w("//===========//","================================================");
                     Log.i("---","---");
@@ -698,7 +698,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                     Log.i("---","---");
                     Log.w("//===========//","================================================");
                     Log.i("","\n"+"[MainActivity >> AndroidBridge :: close() [DATA] :: JS >> Android]");
-                    Log.i("","\n"+"[전달받은 데이터 :: "+String.valueOf(UserIdx)+"]");
+                    Log.i("","\n"+"[전달받은 데이터 :: "+String.valueOf(UserIdx+ " " +courseId + " " + date )+"]");
                     Log.i("","\n"+"[설 명 :: "+String.valueOf("이벤트 발생 전달")+"]");
                     Log.w("//===========//","================================================");
                     Log.i("---","---");
@@ -728,7 +728,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                 Log.w("//===========//","================================================");
                 Log.i("","\n"+"[MainActivity >> mOpen() [NONE] :: Android >> JS]");
                 Log.i("","\n"+"[JS 함수 :: "+String.valueOf("receive_Open")+"]");
-                Log.i("","\n"+"[전달할 데이터 :: "+String.valueOf(returnData)+"]");
+                Log.i("","\n"+"[전달할 데이터 :: "+String.valueOf(UserIdx+ " " +courseId + " " + date )+"]");
                 Log.i("","\n"+"[설 명 :: "+String.valueOf("열기 결과 값 전송")+"]");
                 Log.w("//===========//","================================================");
                 Log.i("---","---");
@@ -753,13 +753,17 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                 Log.w("//===========//","================================================");
                 Log.i("","\n"+"[MainActivity >> mClose() [DATA] :: Android >> JS]");
                 Log.i("","\n"+"[JS 함수 :: "+String.valueOf("receive_Close")+"]");
-                Log.i("","\n"+"[전달할 데이터 :: "+String.valueOf(returnData)+"]");
+                Log.i("","\n"+"[전달할 데이터 :: "+String.valueOf(UserIdx+ " " +courseId + " " + date )+"]");
                 Log.i("","\n"+"[설 명 :: "+String.valueOf("닫기 결과 값 전송")+"]");
                 Log.w("//===========//","================================================");
                 Log.i("---","---");
 
                 // [서버 : function receive_Close(value) { }]
-                main_webview.loadUrl("javascript:receive_Close('"+String.valueOf(returnData)+"')");
+                if(beaconChecking()){
+                    main_webview.loadUrl("javascript:qr_true('"+String.valueOf(returnData)+"')");
+                }else {
+                    main_webview.loadUrl("javascript:qr_false('"+String.valueOf(returnData)+"')");
+                }
             }
             catch (Exception e){
                 e.printStackTrace();
