@@ -29,18 +29,18 @@
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="160dp"
-        android:onClick="onButton1Clicked"
-        android:text="Beacon"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toEndOf="@+id/main_webview"
-        app:layout_constraintStart_toStartOf="@+id/main_webview" />
+<!--    <Button-->
+<!--        android:id="@+id/button3"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="160dp"-->
+<!--        android:onClick="onButton1Clicked"-->
+<!--        android:text="Beacon"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintHorizontal_bias="0.498"-->
+<!--        app:layout_constraintStart_toEndOf="@+id/main_webview"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/main_webview" />-->
 
     <androidx.constraintlayout.widget.Barrier
         android:layout_width="wrap_content"
@@ -62,10 +62,10 @@
         android:layout_height="wrap_content"
         android:text="QR"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button3"
         app:layout_constraintStart_toStartOf="parent"
+        android:onClick="runQRcodeReader"></Button>
 
-        />
+<!--        />-->
 <!--android:onClick="runQRcodeReader"-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
