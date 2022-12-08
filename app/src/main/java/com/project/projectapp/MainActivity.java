@@ -96,13 +96,15 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         setContentView(R.layout.activity_main);
 
         //push 알림을 위한 토큰
-        MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
+//        MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
+//        try {
+//            String token = myFirebaseMessagingService.getToken();
+//            Log.d("MyFirebaseMessagingService", "####MainActivity의 device token: " + token);
+//
+//        }catch(NullPointerException e) {
+//            e.printStackTrace();
+//        }
 
-        String token = myFirebaseMessagingService.getToken();
-
-
-
-        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
 //        Button qrBtn = findViewById(R.id.qrBtn);
 //        qrBtn.setOnClickListener(new View.OnClickListener() {
