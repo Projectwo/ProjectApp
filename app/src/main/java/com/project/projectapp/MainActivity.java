@@ -28,6 +28,12 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.messaging.FirebaseMessagingService;
+
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
 import org.altbeacon.beacon.BeaconManager;
@@ -36,16 +42,21 @@ import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.json.JSONObject;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
 
+    private FirebaseAnalytics mFirebaseAnalytics;
+
+
     /*
     * TODO: webview 주소가 https://groupprojectwo.com/main일 때 버튼 출력
     *       출력버튼 클릭 시 로직(QR/Beacon)체크 수행
-    *       출석 확인되었을 때 Spring Contorller의 mapping 주소로 
+    *       출석 확인되었을 때 Spring Contorller의 mapping 주소로
     *       webview loadUrl 변경(main_webview.loadUrl(url);)
     *  */
     String currentUrl;      // webView내부 주소
@@ -83,6 +94,20 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
+        //push 알림을 위한 토큰
+        MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
+
+        String token = myFirebaseMessagingService.getToken();
+
+
+
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
+
+
+
+
+
         Button qrBtn = findViewById(R.id.qrBtn);
         qrBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,7 +147,9 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         }
         // TODO [Beacon 초기값 설정]
         beaconSettiong();
-        startBeaconScan();
+        if(beaconSwitch != 1) {
+            startBeaconScan();
+        }
 
     } // TODO [메인 종료]
 
