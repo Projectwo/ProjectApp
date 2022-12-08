@@ -1,5 +1,7 @@
 package com.project.projectapp;
 
+import static com.project.projectapp.MainActivity.main_webview;
+import static com.project.projectapp.MainActivity.attendSwitch;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -29,7 +31,7 @@ public class ScanQR extends AppCompatActivity {
     CameraSettings cameraSettings = new CameraSettings(); //[카메라 설정 관련]
     String cameraSettingData = ""; //[전방, 후방 카메라 설정 관련]
     boolean captureFlag = false; //[QR 스캔 후 지속적으로 스캔 방지 플래그]
-
+    static String resultUrl = "";
     //TODO [액티비티 시작 메소드]
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,11 +108,12 @@ public class ScanQR extends AppCompatActivity {
                         Log.d("","\n"+"[결과 : "+String.valueOf(result_data)+"]");
                         Log.w("//===========//","================================================");
                         Log.d("---","---");
+                        resultUrl = String.valueOf(result_data);
 
                         //TODO [팝업창 호출 실시]
                         String alertTittle = "[QR 스캔 정보 확인]";
                         String alertMessage = "[정보]"+"\n"+"\n"+String.valueOf(result_data);
-                        String buttonYes = "다시 스캔";
+                        String buttonYes = "이동";
                         String buttonNo = "종료";
                         new AlertDialog.Builder(ScanQR.this)
                                 .setTitle(alertTittle)
@@ -121,7 +124,10 @@ public class ScanQR extends AppCompatActivity {
                                     public void onClick(DialogInterface dialog, int which) {
                                         //TODO Auto-generated method stub
                                         //TODO [다시 스캔을 하기 위해 플래그값 변경]
-                                        captureFlag = false;
+                                        //captureFlag = false;
+                                        main_webview.loadUrl(resultUrl+"/member/main");
+                                        attendSwitch = 1;
+                                        finish();
                                     }
                                 })
                                 .setNegativeButton(buttonNo, new DialogInterface.OnClickListener() {
