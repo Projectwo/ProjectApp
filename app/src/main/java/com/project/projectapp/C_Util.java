@@ -128,19 +128,27 @@ public class C_Util {
     }
 
 
+    public static String[] dateInfo;
+    public static String currentDate;
+    public static String currentTime;
+    public static String currentWeek;
 
     // TODO [24 시간 형태 현재 날짜 확인]
-    public static String getNowDateTime24() {
+    public static String[] getNowDateTime24() {
         long time = System.currentTimeMillis();
-        SimpleDateFormat dayTime = new SimpleDateFormat("yyyy.MM.dd kk:mm:ss E요일");
+        SimpleDateFormat dayTime = new SimpleDateFormat("yyyy-MM-dd kk:mm:ss E요일");
         String str = dayTime.format(new Date(time));
+        currentDate = str.substring(0,10);
+        currentTime = str.substring(11,19);
+        currentWeek = str.substring(20);
+        dateInfo = new String[]{currentDate, currentTime, currentWeek};
         Log.i("---","---");
         Log.d("//===========//","================================================");
         Log.i("","\n"+"[C_Util >> getNowDateTime24() :: 24 시간 형태 현재 날짜 확인]");
         Log.i("","\n"+"[날짜 :: "+String.valueOf(str)+"]");
         Log.d("//===========//","================================================");
         Log.i("---","---");
-        return str;
+        return dateInfo;
     }
 
 
