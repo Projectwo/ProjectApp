@@ -1,6 +1,7 @@
 package com.project.projectapp;
 
 
+import static com.project.projectapp.MyFirebaseMessagingService.getToken;
 import static com.project.projectapp.S_FinalData.MAIN_URL;
 
 import android.app.AlertDialog;
@@ -61,7 +62,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
     *  */
     String currentUrl;      // webView내부 주소
     String ACTIVITY_NAME = "ACTIVITY_NAME";
-
+    //eQqJhBxSQVuqPNOSgmEOfH:APA91bGA-aZ19LUzr-F65MQ05isTBJej3YCcJVMTkHapAeKENmH2VLAu4MFBoz1Hkl0DrVSQb9EIyBO6GhWzyyhPe8_B76scpiV2rZkrdLaRd5X4kQ0WweCs0H6oclrnWAIFuk5vbjGq
 
     // Beacon
     // TODO [비콘 스캔 관련 전역 변수]
@@ -87,23 +88,22 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
     // TODO [전역 변수 선언 부분]
     static WebView main_webview; // [웹뷰 컴포넌트]
     Handler js_handler = new Handler(); // [자바스크립트 통신 사용 핸들러]
-
+    String currentToken = "currentToken";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //push 알림을 위한 토큰
-//        MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
-//        try {
-//            String token = myFirebaseMessagingService.getToken();
-//            Log.d("MyFirebaseMessagingService", "####MainActivity의 device token: " + token);
-//
-//        }catch(NullPointerException e) {
-//            e.printStackTrace();
-//        }
+        MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
+        try {
+            String token = getToken();
+            Log.d("MyFirebaseMessagingService", "####MainActivity의 device token: " + token);
+
+        }catch(NullPointerException e) {
+            e.printStackTrace();
+        }
 
 
 //        Button qrBtn = findViewById(R.id.qrBtn);
@@ -731,6 +731,26 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                 }
             });
         }
+
+        // [자바스크립트에서 호출하는 안드로이드 메소드]
+        @JavascriptInterface
+        public void get_token(String UserToken) {
+            js_handler.post(new Runnable() {
+                public void run() {
+
+                    Log.i("---","---");
+                    Log.w("//===========//","================================================");
+                    Log.i("","\n"+"[MainActivity >> AndroidBridge :: close() [DATA] :: JS >> Android]");
+                    Log.i("","\n"+"[전달받은 데이터 :: "+currentToken+"]");
+                    Log.i("","\n"+"[설 명 :: "+String.valueOf("이벤트 발생 전달")+"]");
+                    Log.w("//===========//","================================================");
+                    Log.i("---","---");
+                    QrChecking();
+                    // [서버 : window.경로.close() 요청이 들어오면 Android 에서 JS로 바로 데이터를 보내준다]
+                    new Android_To_Javascript().putToken(currentToken);//courseId, date
+                }
+            });
+        }
     }
 
     private void QrChecking() {
@@ -783,6 +803,26 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
 
                 // [서버 : function receive_Close(value) { }]
                 main_webview.loadUrl("javascript:receive_Close('"+String.valueOf(returnData)+"')");
+            }
+            catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
+        public void putToken(String currentToken) {
+            try {
+                String returnData = currentToken;
+                Log.i("---","---");
+                Log.w("//===========//","================================================");
+                Log.i("","\n"+"[MainActivity >> mClose() [DATA] :: Android >> JS]");
+                Log.i("","\n"+"[JS 함수 :: "+String.valueOf("receive_token")+"]");
+                Log.i("","\n"+"[전달할 데이터 :: "+currentToken+"]");
+                Log.i("","\n"+"[설 명 :: "+String.valueOf("닫기 결과 값 전송")+"]");
+                Log.w("//===========//","================================================");
+                Log.i("---","---");
+
+                // [서버 : function receive_Close(value) { }]
+                main_webview.loadUrl("javascript:receive_token('"+currentToken+"')");
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -1061,7 +1101,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                         if(String.valueOf(beacon.getId1().toString().toLowerCase()).equals("11111111-2222-2222-cccc-ccccdddddddd")) {
                             attendSwitch = 1;
                             // TODO [비콘 스캔 정보 추출 참고]
-                            Log.d("//===========//", "================================================");
+                            /*Log.d("//===========//", "================================================");
                             Log.i("", "\n" + "[" + String.valueOf(ACTIVITY_NAME) + " >> beaconScanHandler() :: 실시간 비콘 스캔 [개별] 정보 확인 실시]");
                             Log.i("", "\n" + "[비콘 스캔 Name] " + " [" + String.valueOf(beacon.getBluetoothName()) + "]");
                             Log.i("", "\n" + "[비콘 스캔 MAC] " + " [" + String.valueOf(beacon.getBluetoothAddress()) + "]");
@@ -1072,7 +1112,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                             Log.i("", "\n" + "[비콘 스캔 RSSI] " + " [" + String.valueOf(beacon.getRssi()) + "]");
                             Log.i("", "\n" + "[비콘 스캔 ServiceUuid] " + " [" + String.valueOf(beacon.getServiceUuid()) + "]");
                             Log.i("", "\n" + "[비콘 스캔 beacon] " + " [" + String.valueOf(beacon.toString()) + "]");
-                            Log.d("//===========//", "================================================");
+                            Log.d("//===========//", "================================================");*/
                             //
 
                             // [스캔한 비콘 정보 포맷 실시]
