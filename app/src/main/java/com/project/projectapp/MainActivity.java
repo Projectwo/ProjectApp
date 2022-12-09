@@ -1,6 +1,9 @@
 package com.project.projectapp;
 
 
+import static com.project.projectapp.C_Util.currentDate;
+import static com.project.projectapp.C_Util.currentTime;
+import static com.project.projectapp.C_Util.getNowDateTime24;
 import static com.project.projectapp.S_FinalData.MAIN_URL;
 
 import android.app.AlertDialog;
@@ -15,24 +18,17 @@ import android.os.RemoteException;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.view.View;
 import android.webkit.ConsoleMessage;
 import android.webkit.HttpAuthHandler;
 import android.webkit.JavascriptInterface;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
-
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.firebase.FirebaseApp;
-import com.google.firebase.FirebaseOptions;
 import com.google.firebase.analytics.FirebaseAnalytics;
-import com.google.firebase.messaging.FirebaseMessagingService;
 
 import org.altbeacon.beacon.Beacon;
 import org.altbeacon.beacon.BeaconConsumer;
@@ -42,8 +38,6 @@ import org.altbeacon.beacon.RangeNotifier;
 import org.altbeacon.beacon.Region;
 import org.json.JSONObject;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -63,8 +57,9 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
     String ACTIVITY_NAME = "ACTIVITY_NAME";
 
 
+
     // Beacon
-    // TODO [비콘 스캔 관련 전역 변수]
+    // TODO [전역 변수 선언 부분]
     private BeaconManager beaconManager; // [비콘 매니저 객체]
     private List<Beacon> beaconList = new ArrayList<>(); // [실시간 비콘 감지 배열]
     int beaconScanCount = 1; // [비콘 스캔 횟수를 카운트하기 위함]
@@ -72,19 +67,6 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
     static int attendSwitch = 0;
     // by 장유란, attendSwitch == 1 -> 출석true 0 -> false
 
-    //WebView
-    ///////////////////////////////////////////////
-    /**
-     * TODO [클래스 설명]
-     * 1. 메인 웹뷰 화면 호출 액티비티 화면
-     * 2. 네트워크 연결 상태 체크
-     * 3. 웹뷰 호출 실시 및 자바스크립트 통신 처리
-     * 4. 퍼미션 권한 부여 체크
-     * */
-
-
-
-    // TODO [전역 변수 선언 부분]
     static WebView main_webview; // [웹뷰 컴포넌트]
     Handler js_handler = new Handler(); // [자바스크립트 통신 사용 핸들러]
 
@@ -94,7 +76,12 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        Permission.checkPermission(MainActivity.this);
+        String[] dateInfo = getNowDateTime24();
+        String currentDate = dateInfo[0];
+        String currentTime = dateInfo[1];
+        String currentWeek = dateInfo[2];
+        Log.i("", currentDate + " " + currentTime +" "+ currentWeek);
         //push 알림을 위한 토큰
 //        MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
 //        try {
@@ -104,17 +91,6 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
 //        }catch(NullPointerException e) {
 //            e.printStackTrace();
 //        }
-
-
-//        Button qrBtn = findViewById(R.id.qrBtn);
-//        qrBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//               Intent intent = new Intent(MainActivity.this,ScanQR.class);
-//               startActivity(intent);
-//                //finish();
-//            }
-//        });
 
         Log.i("---","---");
         Log.d("//===========//","================================================");
@@ -700,7 +676,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                     Log.i("---","---");
                     Log.w("//===========//","================================================");
                     Log.i("","\n"+"[MainActivity >> AndroidBridge :: open() [NONE] :: JS >> Android]");
-                    Log.i("","\n"+"[전달받은 데이터 :: "+String.valueOf(UserIdx)+"]");
+                    Log.i("","\n"+"[전달받은 데이터 :: "+String.valueOf(UserIdx)+String.valueOf(courseId)+String.valueOf(date)+"]");
                     Log.i("","\n"+"[설 명 :: "+String.valueOf("이벤트 발생 전달")+"]");
                     Log.w("//===========//","================================================");
                     Log.i("---","---");
@@ -721,7 +697,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                     Log.i("---","---");
                     Log.w("//===========//","================================================");
                     Log.i("","\n"+"[MainActivity >> AndroidBridge :: close() [DATA] :: JS >> Android]");
-                    Log.i("","\n"+"[전달받은 데이터 :: "+String.valueOf(UserIdx)+"]");
+                    Log.i("","\n"+"[전달받은 데이터 :: "+String.valueOf(UserIdx)+String.valueOf(courseId)+String.valueOf(currentDate)+"]");
                     Log.i("","\n"+"[설 명 :: "+String.valueOf("이벤트 발생 전달")+"]");
                     Log.w("//===========//","================================================");
                     Log.i("---","---");
@@ -746,11 +722,11 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         // [mOpen - 자바스크립트 함수만 호출]
         public void mOpen(String UserIdx, String courseId, String date){
             try {
-                String returnData = "ㅎㅇㅎㅇ";
+                String returnData = currentTime;
                 Log.i("---","---");
                 Log.w("//===========//","================================================");
                 Log.i("","\n"+"[MainActivity >> mOpen() [NONE] :: Android >> JS]");
-                Log.i("","\n"+"[JS 함수 :: "+String.valueOf("receive_Open")+"]");
+                Log.i("","\n"+"[JS 함수 :: "+String.valueOf("beacon_true/false")+"]");
                 Log.i("","\n"+"[전달할 데이터 :: "+String.valueOf(returnData)+"]");
                 Log.i("","\n"+"[설 명 :: "+String.valueOf("열기 결과 값 전송")+"]");
                 Log.w("//===========//","================================================");
@@ -761,7 +737,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                     main_webview.loadUrl("javascript:beacon_true('"+String.valueOf(returnData)+"')");
                     stopBeaconScan();
                 }else {
-                    main_webview.loadUrl("javascript:beacon_false('"+String.valueOf(returnData)+"')");
+                    main_webview.loadUrl("javascript:beacon_false()");
                 }
             }
             catch (Exception e){
@@ -771,7 +747,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         // [mClose - 자바스크립트 함수 데이터 전달]
         public void mClose(String UserIdx, String courseId, String date){
             try {
-                String returnData = UserIdx;
+                String returnData = currentTime;
                 Log.i("---","---");
                 Log.w("//===========//","================================================");
                 Log.i("","\n"+"[MainActivity >> mClose() [DATA] :: Android >> JS]");
@@ -782,7 +758,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                 Log.i("---","---");
 
                 // [서버 : function receive_Close(value) { }]
-                main_webview.loadUrl("javascript:receive_Close('"+String.valueOf(returnData)+"')");
+                main_webview.loadUrl("javascript:qr_true('"+String.valueOf(returnData)+"')");
             }
             catch (Exception e){
                 e.printStackTrace();
@@ -933,7 +909,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         Log.i("---","---");
         try {
             // [이미 비콘이 진행 중인 경우 종료 실시]
-            stopBeaconScan();
+            //stopBeaconScan();
 
             // [비콘 스캔 카운트 변수값 초기화 실시]
             beaconScanCount = 1;
