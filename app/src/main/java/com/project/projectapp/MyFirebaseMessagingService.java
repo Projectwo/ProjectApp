@@ -20,13 +20,14 @@ import com.google.firebase.messaging.RemoteMessage;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
-    private String token;
+    public static String token;
 
     @Override
     public void onNewToken(String token){
 
         Log.d("OnNewToken Log", "####token: " + token);
-        sendRegistrationToServer(token);
+        this.token = token;
+        //sendRegistrationToServer(token);
 
     }
 
@@ -36,9 +37,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //서버에 디바이스 토큰값을 넘겨주는 동작을 하고 싶으면 여기에 어떻게 하래...
     }
 
-//    public String getToken(){
-//        return token;
-//    }
+    public static String getToken(){
+        return token;
+    }
     //받은 메시지에서 title과 body를 추출
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
