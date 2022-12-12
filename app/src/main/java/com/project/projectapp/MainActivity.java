@@ -712,16 +712,16 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         public void dbToken(String db_token) {
             js_handler.post(new Runnable() {
                 public void run() {
-
+                    currentToken = MyFirebaseMessagingService.getToken();
                     Log.i("---","---");
                     Log.w("//===========//","================================================");
                     Log.i("","\n"+"[MainActivity >> AndroidBridge :: close() [DATA] :: JS >> Android]");
-                    Log.i("","\n"+"[전달받은 데이터 :: "+currentToken+"]");
+                    Log.i("","\n"+"[전달받은 데이터 :: "+db_token+"]");
                     Log.i("","\n"+"[설 명 :: "+String.valueOf("이벤트 발생 전달")+"]");
                     Log.w("//===========//","================================================");
                     Log.i("---","---");
                     // [서버 : window.경로.close() 요청이 들어오면 Android 에서 JS로 바로 데이터를 보내준다]
-                    new Android_To_Javascript().putToken("휴대폰 생성 토큰 : "+currentToken);//
+                    new Android_To_Javascript().putToken(currentToken);//
                     //휴대폰에서 생성된 토큰 전달필요
                 }
             });
