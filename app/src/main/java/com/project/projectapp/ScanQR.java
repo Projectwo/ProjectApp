@@ -125,7 +125,8 @@ public class ScanQR extends AppCompatActivity {
                                         //TODO Auto-generated method stub
                                         //TODO [다시 스캔을 하기 위해 플래그값 변경]
                                         //captureFlag = false;
-                                        main_webview.loadUrl(resultUrl+"/member/main");
+                                        main_webview.loadUrl(resultUrl);
+                                        Log.e("result///////////////////////", resultUrl);
                                         attendSwitch = 1;
                                         finish();
                                     }

@@ -71,6 +71,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
     static WebView main_webview; // [웹뷰 컴포넌트]
     Handler js_handler = new Handler(); // [자바스크립트 통신 사용 핸들러]
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -722,7 +723,6 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                     Log.i("---","---");
                     // [서버 : window.경로.close() 요청이 들어오면 Android 에서 JS로 바로 데이터를 보내준다]
                     new Android_To_Javascript().putToken(currentToken);//
-                    //휴대폰에서 생성된 토큰 전달필요
                 }
             });
         }
@@ -733,6 +733,9 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         Intent intent = new Intent(MainActivity.this,ScanQR.class);
         intent.setAction("android.QR_VIEW");
         startActivity(intent);
+
+        String result = ScanQR.resultUrl;
+        Log.e("result:", result);
 
     }
 
@@ -803,6 +806,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                 e.printStackTrace();
             }
         }
+
     }
 
 
