@@ -95,6 +95,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Permission.checkPermission(MainActivity.this);
         //push 알림을 위한 토큰
         MyFirebaseMessagingService myFirebaseMessagingService = new MyFirebaseMessagingService();
         try {
@@ -745,7 +746,6 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                     Log.i("","\n"+"[설 명 :: "+String.valueOf("이벤트 발생 전달")+"]");
                     Log.w("//===========//","================================================");
                     Log.i("---","---");
-                    QrChecking();
                     // [서버 : window.경로.close() 요청이 들어오면 Android 에서 JS로 바로 데이터를 보내준다]
                     new Android_To_Javascript().putToken(currentToken);//courseId, date
                 }
@@ -758,6 +758,9 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         Intent intent = new Intent(MainActivity.this,ScanQR.class);
         intent.setAction("android.QR_VIEW");
         startActivity(intent);
+
+        String result = ScanQR.resultUrl;
+        Log.e("result:", result);
 
     }
 
