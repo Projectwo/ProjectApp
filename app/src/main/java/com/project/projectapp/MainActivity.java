@@ -57,7 +57,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
     String currentUrl;      // webView내부 주소
     String ACTIVITY_NAME = "ACTIVITY_NAME";
     //eQqJhBxSQVuqPNOSgmEOfH:APA91bGA-aZ19LUzr-F65MQ05isTBJej3YCcJVMTkHapAeKENmH2VLAu4MFBoz1Hkl0DrVSQb9EIyBO6GhWzyyhPe8_B76scpiV2rZkrdLaRd5X4kQ0WweCs0H6oclrnWAIFuk5vbjGq
-
+    String currentToken = MyFirebaseMessagingService.getToken();
 
     // Beacon
     // TODO [전역 변수 선언 부분]
@@ -70,8 +70,6 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
 
     static WebView main_webview; // [웹뷰 컴포넌트]
     Handler js_handler = new Handler(); // [자바스크립트 통신 사용 핸들러]
-    String currentToken = "currentToken";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -711,7 +709,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
 
         // [자바스크립트에서 호출하는 안드로이드 메소드]
         @JavascriptInterface
-        public void get_token(String UserToken) {
+        public void dbToken(String db_token) {
             js_handler.post(new Runnable() {
                 public void run() {
 
@@ -722,9 +720,9 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                     Log.i("","\n"+"[설 명 :: "+String.valueOf("이벤트 발생 전달")+"]");
                     Log.w("//===========//","================================================");
                     Log.i("---","---");
-                    QrChecking();
                     // [서버 : window.경로.close() 요청이 들어오면 Android 에서 JS로 바로 데이터를 보내준다]
-                    new Android_To_Javascript().putToken(currentToken);//courseId, date
+                    new Android_To_Javascript().putToken("휴대폰 생성 토큰 : "+currentToken);//
+                    //휴대폰에서 생성된 토큰 전달필요
                 }
             });
         }
@@ -793,13 +791,13 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                 Log.w("//===========//","================================================");
                 Log.i("","\n"+"[MainActivity >> mClose() [DATA] :: Android >> JS]");
                 Log.i("","\n"+"[JS 함수 :: "+String.valueOf("receive_token")+"]");
-                Log.i("","\n"+"[전달할 데이터 :: "+currentToken+"]");
+                Log.i("","\n"+"[전달할 데이터 :: "+"currentToken"+"]");
                 Log.i("","\n"+"[설 명 :: "+String.valueOf("닫기 결과 값 전송")+"]");
                 Log.w("//===========//","================================================");
                 Log.i("---","---");
 
                 // [서버 : function receive_Close(value) { }]
-                main_webview.loadUrl("javascript:receive_token('"+currentToken+"')");
+                main_webview.loadUrl("javascript:receive_token('"+returnData+"')");
             }
             catch (Exception e){
                 e.printStackTrace();
