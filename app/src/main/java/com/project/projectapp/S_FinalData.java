@@ -17,7 +17,7 @@ public class S_FinalData {
      */
 //    public static final String MAIN_URL = "groupprojectwo.com";
 
-    public static final String MAIN_URL = "http://192.168.100.19:9090";
+    public static final String MAIN_URL = "http://192.168.0.214:9090";
 
 } // TODO [클래스 종료]
 
