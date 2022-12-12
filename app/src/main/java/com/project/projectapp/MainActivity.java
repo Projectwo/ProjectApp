@@ -756,6 +756,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                     // [서버 : function receive_Open() { }]
                 if(beaconChecking()){
                     main_webview.loadUrl("javascript:beacon_true('"+String.valueOf(returnData)+"')");
+                    // beaconTrue/////////////firebase로 시간 저장
                     stopBeaconScan();
                 }else {
                     main_webview.loadUrl("javascript:beacon_false()");
