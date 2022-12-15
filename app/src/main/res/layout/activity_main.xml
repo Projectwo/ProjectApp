@@ -9,15 +9,15 @@
     <WebView
         android:id="@+id/main_webview"
         android:layout_width="411dp"
-        android:layout_height="800dp"
+        android:layout_height="0dp"
         android:background="#000000"
         android:smoothScrollbar="true"
         android:text="web_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="0dp"
-        tools:ignore="MissingConstraints"></WebView>
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteX="0dp"></WebView>
 
     <androidx.constraintlayout.widget.Barrier
         android:layout_width="wrap_content"

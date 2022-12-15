@@ -2,7 +2,6 @@ package com.project.projectapp;
 
 
 import static com.project.projectapp.C_Util.currentDate;
-import static com.project.projectapp.C_Util.currentTime;
 import static com.project.projectapp.C_Util.getNowDateTime24;
 import static com.project.projectapp.MyFirebaseMessagingService.getToken;
 import static com.project.projectapp.S_FinalData.MAIN_URL;
@@ -744,7 +743,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         // [mOpen - 자바스크립트 함수만 호출]
         public void mOpen(String UserIdx, String courseId, String date){
             try {
-                String returnData = currentTime;
+                String returnData = currentDate;
                 Log.i("---","---");
                 Log.w("//===========//","================================================");
                 Log.i("","\n"+"[MainActivity >> mOpen() [NONE] :: Android >> JS]");
@@ -769,7 +768,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         // [mClose - 자바스크립트 함수 데이터 전달]
         public void mClose(String UserIdx, String courseId, String date){
             try {
-                String returnData = currentTime;
+                String returnData = currentDate;
                 Log.i("---","---");
                 Log.w("//===========//","================================================");
                 Log.i("","\n"+"[MainActivity >> mClose() [DATA] :: Android >> JS]");
