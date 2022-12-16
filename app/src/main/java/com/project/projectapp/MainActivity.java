@@ -46,14 +46,6 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
 
     private FirebaseAnalytics mFirebaseAnalytics;
 
-
-    /*
-    * TODO: webview 주소가 https://groupprojectwo.com/main일 때 버튼 출력
-    *       출력버튼 클릭 시 로직(QR/Beacon)체크 수행
-    *       출석 확인되었을 때 Spring Contorller의 mapping 주소로
-    *       webview loadUrl 변경(main_webview.loadUrl(url);)
-    *  */
-    String currentUrl;      // webView내부 주소
     String ACTIVITY_NAME = "ACTIVITY_NAME";
     //eQqJhBxSQVuqPNOSgmEOfH:APA91bGA-aZ19LUzr-F65MQ05isTBJej3YCcJVMTkHapAeKENmH2VLAu4MFBoz1Hkl0DrVSQb9EIyBO6GhWzyyhPe8_B76scpiV2rZkrdLaRd5X4kQ0WweCs0H6oclrnWAIFuk5vbjGq
     String currentToken = MyFirebaseMessagingService.getToken();
@@ -69,7 +61,6 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
 
     static WebView main_webview; // [웹뷰 컴포넌트]
     Handler js_handler = new Handler(); // [자바스크립트 통신 사용 핸들러]
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,11 +111,7 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         }
         // TODO [Beacon 초기값 설정]
         beaconSettiong();
-        if(attendSwitch != 1) {
-            startBeaconScan();
-        }else{
-            stopBeaconScan();
-        }
+
     } // TODO [메인 종료]
 
 
@@ -183,24 +170,24 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                 @Override
                 public void onProgressChanged(WebView view, int progress) {
 
-                    Log.i("---","---");
-                    Log.d("//===========//","================================================");
-                    Log.i("","\n"+"[MainActivity >> onProgressChanged() :: 웹뷰 호출 상황 확인 실시]");
-                    Log.i("","\n"+"[url :: "+String.valueOf(main_webview.getUrl())+"]");
-                    Log.i("","\n"+"[호출 상황 :: "+String.valueOf(progress)+"]");
-                    Log.d("//===========//","================================================");
-                    Log.i("---","---");
+//                    Log.i("---","---");
+//                    Log.d("//===========//","================================================");
+//                    Log.i("","\n"+"[MainActivity >> onProgressChanged() :: 웹뷰 호출 상황 확인 실시]");
+//                    Log.i("","\n"+"[url :: "+String.valueOf(main_webview.getUrl())+"]");
+//                    Log.i("","\n"+"[호출 상황 :: "+String.valueOf(progress)+"]");
+//                    Log.d("//===========//","================================================");
+//                    Log.i("---","---");
 
                     // [웹뷰 로드 완료 상태 : 웹뷰의 호출 상황이 100 인 경우]
                     if(progress >= 100){
-                        Log.i("---","---");
-                        Log.w("//===========//","================================================");
-                        Log.i("","\n"+"[MainActivity >> onProgressChanged() :: 웹뷰 호출 상황 확인 실시]");
-                        Log.i("","\n"+"[url :: "+String.valueOf(main_webview.getUrl())+"]");
-                        Log.i("","\n"+"[호출 상황 :: "+String.valueOf(progress)+"]");
-                        Log.i("","\n"+"[상태 :: "+"웹뷰 로드 완료 상태"+"]");
-                        Log.w("//===========//","================================================");
-                        Log.i("---","---");
+//                        Log.i("---","---");
+//                        Log.w("//===========//","================================================");
+//                        Log.i("","\n"+"[MainActivity >> onProgressChanged() :: 웹뷰 호출 상황 확인 실시]");
+//                        Log.i("","\n"+"[url :: "+String.valueOf(main_webview.getUrl())+"]");
+//                        Log.i("","\n"+"[호출 상황 :: "+String.valueOf(progress)+"]");
+//                        Log.i("","\n"+"[상태 :: "+"웹뷰 로드 완료 상태"+"]");
+//                        Log.w("//===========//","================================================");
+//                        Log.i("---","---");
                     }
                 }
             });
@@ -483,13 +470,13 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                     break;
 
                 case SslError.SSL_NOTYETVALID:
-                    Log.i("---","---");
-                    Log.e("//===========//","================================================");
-                    Log.i("","\n"+"[MainActivity >> onReceivedSslError() :: [웹 클라이언트]]");
-                    Log.i("","\n"+"[타 입 :: "+String.valueOf("SSL_NOTYETVALID")+"]");
-                    Log.i("","\n"+"[설 명 :: "+String.valueOf("보안 인증서가 유효하지 않습니다")+"]");
-                    Log.e("//===========//","================================================");
-                    Log.i("---","---");
+//                    Log.i("---","---");
+//                    Log.e("//===========//","================================================");
+//                    Log.i("","\n"+"[MainActivity >> onReceivedSslError() :: [웹 클라이언트]]");
+//                    Log.i("","\n"+"[타 입 :: "+String.valueOf("SSL_NOTYETVALID")+"]");
+//                    Log.i("","\n"+"[설 명 :: "+String.valueOf("보안 인증서가 유효하지 않습니다")+"]");
+//                    Log.e("//===========//","================================================");
+//                    Log.i("---","---");
                     break;
             }
         }
@@ -497,61 +484,57 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         @Override
         public void onReceivedHttpAuthRequest(WebView view, HttpAuthHandler handler, String host, String realm) {
             super.onReceivedHttpAuthRequest(view, handler, host, realm);
-            Log.i("---","---");
-            Log.d("//===========//","================================================");
-            Log.i("","\n"+"[MainActivity >> onReceivedHttpAuthRequest() :: [웹 클라이언트]]");
-            Log.i("","\n"+"[설 명 :: "+String.valueOf("http 인증 요청")+"]");
-            Log.d("//===========//","================================================");
-            Log.i("---","---");
+//            Log.i("---","---");
+//            Log.d("//===========//","================================================");
+//            Log.i("","\n"+"[MainActivity >> onReceivedHttpAuthRequest() :: [웹 클라이언트]]");
+//            Log.i("","\n"+"[설 명 :: "+String.valueOf("http 인증 요청")+"]");
+//            Log.d("//===========//","================================================");
+//            Log.i("---","---");
         }
         // [확대나 크기 등의 변화가 있는 경우]
         @Override
         public void onScaleChanged(WebView view, float oldScale, float newScale) {
             super.onScaleChanged(view, oldScale, newScale);
-            Log.i("---","---");
-            Log.d("//===========//","================================================");
-            Log.i("","\n"+"[MainActivity >> onScaleChanged() :: [웹 클라이언트]]");
-            Log.i("","\n"+"[설 명 :: "+String.valueOf("화면 크기 변화")+"]");
-            Log.d("//===========//","================================================");
-            Log.i("---","---");
+//            Log.i("---","---");
+//            Log.d("//===========//","================================================");
+//            Log.i("","\n"+"[MainActivity >> onScaleChanged() :: [웹 클라이언트]]");
+//            Log.i("","\n"+"[설 명 :: "+String.valueOf("화면 크기 변화")+"]");
+//            Log.d("//===========//","================================================");
+//            Log.i("---","---");
         }
         // [잘못된 키 입력이 있는 경우]
         @Override
         public boolean shouldOverrideKeyEvent(WebView view, KeyEvent event) {
-            Log.i("---","---");
-            Log.d("//===========//","================================================");
-            Log.i("","\n"+"[MainActivity >> shouldOverrideKeyEvent() :: [웹 클라이언트]]");
-            Log.i("","\n"+"[설 명 :: "+String.valueOf("잘못된 키 입력")+"]");
-            Log.d("//===========//","================================================");
-            Log.i("---","---");
+//            Log.i("---","---");
+//            Log.d("//===========//","================================================");
+//            Log.i("","\n"+"[MainActivity >> shouldOverrideKeyEvent() :: [웹 클라이언트]]");
+//            Log.i("","\n"+"[설 명 :: "+String.valueOf("잘못된 키 입력")+"]");
+//            Log.d("//===========//","================================================");
+//            Log.i("---","---");
             return super.shouldOverrideKeyEvent(view, event);
         }
         // [새로운 URL이 webview에 로드되려 할 경우 컨트롤을 대신할 기회를 줌]
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, String url) {
-            Log.i("---","---");
-            Log.w("//===========//","================================================");
-            Log.i("","\n"+"[MainActivity >> shouldOverrideUrlLoading() :: [웹 클라이언트]]");
-            Log.i("","\n"+"[기본 주소 :: "+String.valueOf(url)+"]");
-            Log.i("","\n"+"[getUrl 주소 :: "+String.valueOf(main_webview.getUrl())+"]");
-            Log.i("","\n"+"[getOriginalUrl 주소 :: "+String.valueOf(main_webview.getOriginalUrl())+"]");
-            Log.i("","\n"+"[설 명 :: "+String.valueOf("새로운 URL이 webview에 로드")+"]");
-            Log.w("//===========//","================================================");
-            Log.i("---","---");
-            currentUrl = String.valueOf(main_webview.getUrl());
-//            if(currentUrl.equals("view-source:https://groupprojectwo.com/main")){
-//                Log.i("","button 출력 필요"+currentUrl);
-//                //main_webview.loadUrl(currentUrl+"/attempt");
-//            }
+//            Log.i("---","---");
+//            Log.w("//===========//","================================================");
+//            Log.i("","\n"+"[MainActivity >> shouldOverrideUrlLoading() :: [웹 클라이언트]]");
+//            Log.i("","\n"+"[기본 주소 :: "+String.valueOf(url)+"]");
+//            Log.i("","\n"+"[getUrl 주소 :: "+String.valueOf(main_webview.getUrl())+"]");
+//            Log.i("","\n"+"[getOriginalUrl 주소 :: "+String.valueOf(main_webview.getOriginalUrl())+"]");
+//            Log.i("","\n"+"[설 명 :: "+String.valueOf("새로운 URL이 webview에 로드")+"]");
+//            Log.w("//===========//","================================================");
+//            Log.i("---","---");
+
             // [외부앱 실행 인텐트 이동 실시 : if(url.startsWith("intent:패키지명")]
             if(url.startsWith("intent:")) {
-                Log.i("---","---");
-                Log.w("//===========//","================================================");
-                Log.i("","\n"+"[MainActivity >> shouldOverrideUrlLoading() :: [웹 클라이언트]]");
-                Log.i("","\n"+"[타 입 :: "+String.valueOf("intent")+"]");
-                Log.i("","\n"+"[설 명 :: "+String.valueOf("새로운 URL이 webview에 로드")+"]");
-                Log.w("//===========//","================================================");
-                Log.i("---","---");
+//                Log.i("---","---");
+//                Log.w("//===========//","================================================");
+//                Log.i("","\n"+"[MainActivity >> shouldOverrideUrlLoading() :: [웹 클라이언트]]");
+//                Log.i("","\n"+"[타 입 :: "+String.valueOf("intent")+"]");
+//                Log.i("","\n"+"[설 명 :: "+String.valueOf("새로운 URL이 webview에 로드")+"]");
+//                Log.w("//===========//","================================================");
+//                Log.i("---","---");
                 // [url 불필요한 문자 변경 실시]
                 String data = url;
                 data = data.replace("intent://","");
@@ -566,13 +549,13 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
 
             // [SMS 인텐트 이동 실시 : if(url.startsWith("sms:010-5678-1234")]
             if (url.startsWith("sms:")) {
-                Log.i("---","---");
-                Log.w("//===========//","================================================");
-                Log.i("","\n"+"[MainActivity >> shouldOverrideUrlLoading() :: [웹 클라이언트]]");
-                Log.i("","\n"+"[타 입 :: "+String.valueOf("sms")+"]");
-                Log.i("","\n"+"[설 명 :: "+String.valueOf("새로운 URL이 webview에 로드")+"]");
-                Log.w("//===========//","================================================");
-                Log.i("---","---");
+//                Log.i("---","---");
+//                Log.w("//===========//","================================================");
+//                Log.i("","\n"+"[MainActivity >> shouldOverrideUrlLoading() :: [웹 클라이언트]]");
+//                Log.i("","\n"+"[타 입 :: "+String.valueOf("sms")+"]");
+//                Log.i("","\n"+"[설 명 :: "+String.valueOf("새로운 URL이 webview에 로드")+"]");
+//                Log.w("//===========//","================================================");
+//                Log.i("---","---");
 
                 // [sms 이동 메소드 호출]
                 C_Intent.goSmsIntent(MainActivity.this, url);
@@ -583,13 +566,13 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
 
             // [전화 다이얼 인텐트 이동 실시 : if(url.startsWith("tel:010-1234-5678")]
             if(url.startsWith("tel:")){
-                Log.i("---","---");
-                Log.w("//===========//","================================================");
-                Log.i("","\n"+"[MainActivity >> shouldOverrideUrlLoading() :: [웹 클라이언트]]");
-                Log.i("","\n"+"[타 입 :: "+String.valueOf("tel")+"]");
-                Log.i("","\n"+"[설 명 :: "+String.valueOf("새로운 URL이 webview에 로드")+"]");
-                Log.w("//===========//","================================================");
-                Log.i("---","---");
+//                Log.i("---","---");
+//                Log.w("//===========//","================================================");
+//                Log.i("","\n"+"[MainActivity >> shouldOverrideUrlLoading() :: [웹 클라이언트]]");
+//                Log.i("","\n"+"[타 입 :: "+String.valueOf("tel")+"]");
+//                Log.i("","\n"+"[설 명 :: "+String.valueOf("새로운 URL이 webview에 로드")+"]");
+//                Log.w("//===========//","================================================");
+//                Log.i("---","---");
 
                 // [전화 다이얼 이동 메소드 호출]
                 C_Intent.goTelIntent(MainActivity.this, url);
@@ -600,13 +583,13 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
 
             // [Mail (Gmail) 인텐트 이동 실시 : if(url.startsWith("mailto:honggildung@test.com?subject=tittle&body=content")]
             if(url.startsWith("mailto:")){
-                Log.i("---","---");
-                Log.w("//===========//","================================================");
-                Log.i("","\n"+"[MainActivity >> shouldOverrideUrlLoading() :: [웹 클라이언트]]");
-                Log.i("","\n"+"[타 입 :: "+String.valueOf("mailto")+"]");
-                Log.i("","\n"+"[설 명 :: "+String.valueOf("새로운 URL이 webview에 로드")+"]");
-                Log.w("//===========//","================================================");
-                Log.i("---","---");
+//                Log.i("---","---");
+//                Log.w("//===========//","================================================");
+//                Log.i("","\n"+"[MainActivity >> shouldOverrideUrlLoading() :: [웹 클라이언트]]");
+//                Log.i("","\n"+"[타 입 :: "+String.valueOf("mailto")+"]");
+//                Log.i("","\n"+"[설 명 :: "+String.valueOf("새로운 URL이 webview에 로드")+"]");
+//                Log.w("//===========//","================================================");
+//                Log.i("---","---");
 
                 // [메일 이동 메소드 호출]
                 C_Intent.goMailIntent(MainActivity.this, url);
@@ -617,13 +600,13 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
 
             // [하이퍼링크 이동 실시 : if(url.startsWith("l:https://naver.com")]
             if(url.startsWith("l:")){
-                Log.i("---","---");
-                Log.w("//===========//","================================================");
-                Log.i("","\n"+"[MainActivity >> shouldOverrideUrlLoading() :: [웹 클라이언트]]");
-                Log.i("","\n"+"[타 입 :: "+String.valueOf("하이퍼링크")+"]");
-                Log.i("","\n"+"[설 명 :: "+String.valueOf("새로운 URL이 webview에 로드")+"]");
-                Log.w("//===========//","================================================");
-                Log.i("---","---");
+//                Log.i("---","---");
+//                Log.w("//===========//","================================================");
+//                Log.i("","\n"+"[MainActivity >> shouldOverrideUrlLoading() :: [웹 클라이언트]]");
+//                Log.i("","\n"+"[타 입 :: "+String.valueOf("하이퍼링크")+"]");
+//                Log.i("","\n"+"[설 명 :: "+String.valueOf("새로운 URL이 webview에 로드")+"]");
+//                Log.w("//===========//","================================================");
+//                Log.i("---","---");
 
                 // [하이퍼링크 이동 메소드 호출]
                 C_Intent.goLinkIntent(MainActivity.this, url);
@@ -644,14 +627,14 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
 
     // TODO [자바스크립트 >> 안드로이드 - 경로 지정 : 브릿지 경로에 location 추가 시 웹뷰 무한 로딩 현상 발생]
     public void Javascript_To_Android_Bridge(){
-        Log.i("---","---");
-        Log.w("//===========//","================================================");
-        Log.i("","\n"+"[MainActivity >> Javascript_To_Android_Bridge() :: 자바스크립트 통신 브릿지 경로 추가 실시]");
-        Log.i("","\n"+"[경로 [1] :: "+String.valueOf("android")+"]");
-        Log.i("","\n"+"[경로 [2] :: "+String.valueOf("main")+"]");
-        Log.i("","\n"+"[경로 [3] :: "+String.valueOf("media")+"]");
-        Log.w("//===========//","================================================");
-        Log.i("---","---");
+//        Log.i("---","---");
+//        Log.w("//===========//","================================================");
+//        Log.i("","\n"+"[MainActivity >> Javascript_To_Android_Bridge() :: 자바스크립트 통신 브릿지 경로 추가 실시]");
+//        Log.i("","\n"+"[경로 [1] :: "+String.valueOf("android")+"]");
+//        Log.i("","\n"+"[경로 [2] :: "+String.valueOf("main")+"]");
+//        Log.i("","\n"+"[경로 [3] :: "+String.valueOf("media")+"]");
+//        Log.w("//===========//","================================================");
+//        Log.i("---","---");
 
         // [서버 : window.android.함수();]
         main_webview.addJavascriptInterface(new AndroidBridge(), "android"); // [자바스크립트에 대응할 함수를 정의한 클래스 붙여줌]
@@ -672,18 +655,16 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         public void open(String UserIdx, String courseId, String date) { //courseId, date
             js_handler.post(new Runnable() {
                 public void run() {
-                    Log.i("---","---");
-                    Log.w("//===========//","================================================");
-                    Log.i("","\n"+"[MainActivity >> AndroidBridge :: open() [NONE] :: JS >> Android]");
-                    Log.i("","\n"+"[전달받은 데이터 :: "+String.valueOf(UserIdx)+String.valueOf(courseId)+String.valueOf(date)+"]");
-                    Log.i("","\n"+"[설 명 :: "+String.valueOf("이벤트 발생 전달")+"]");
-                    Log.w("//===========//","================================================");
-                    Log.i("---","---");
+//                    Log.i("---","---");
+//                    Log.w("//===========//","================================================");
+//                    Log.i("","\n"+"[MainActivity >> AndroidBridge :: open() [NONE] :: JS >> Android]");
+//                    Log.i("","\n"+"[전달받은 데이터 :: "+String.valueOf(UserIdx)+String.valueOf(courseId)+String.valueOf(date)+"]");
+//                    Log.i("","\n"+"[설 명 :: "+String.valueOf("이벤트 발생 전달")+"]");
+//                    Log.w("//===========//","================================================");
+//                    Log.i("---","---");
                     beaconChecking();
-
                     new Android_To_Javascript().mOpen(UserIdx, courseId, date);
                     // [서버 : window.경로.open() 요청이 들어오면 Android 에서 JS로 바로 데이터를 보내준다]
-
                 }
             });
         }
@@ -692,17 +673,37 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
         public void close(String UserIdx, String courseId, String date) { //courseId, date
             js_handler.post(new Runnable() {
                 public void run() {
-
-                    Log.i("---","---");
-                    Log.w("//===========//","================================================");
-                    Log.i("","\n"+"[MainActivity >> AndroidBridge :: close() [DATA] :: JS >> Android]");
-                    Log.i("","\n"+"[전달받은 데이터 :: "+String.valueOf(UserIdx)+String.valueOf(courseId)+String.valueOf(currentDate)+"]");
-                    Log.i("","\n"+"[설 명 :: "+String.valueOf("이벤트 발생 전달")+"]");
-                    Log.w("//===========//","================================================");
-                    Log.i("---","---");
+//                    Log.i("---","---");
+//                    Log.w("//===========//","================================================");
+//                    Log.i("","\n"+"[MainActivity >> AndroidBridge :: close() [DATA] :: JS >> Android]");
+//                    Log.i("","\n"+"[전달받은 데이터 :: "+String.valueOf(UserIdx)+String.valueOf(courseId)+String.valueOf(currentDate)+"]");
+//                    Log.i("","\n"+"[설 명 :: "+String.valueOf("이벤트 발생 전달")+"]");
+//                    Log.w("//===========//","================================================");
+//                    Log.i("---","---");
                     QrChecking();
+                }
+            });
+        }
+
+        // [자바스크립트에서 호출하는 안드로이드 메소드]
+        @JavascriptInterface
+        public void dbToken() {
+            js_handler.post(new Runnable() {
+                public void run() {
+                    currentToken = getToken();
+//                    Log.i("---","---");
+//                    Log.w("//===========//","================================================");
+//                    Log.i("","\n"+"[MainActivity >> AndroidBridge :: close() [DATA] :: JS >> Android]");
+//                    Log.i("","\n"+"[전달받은 데이터 :: "+currentToken+"]");
+//                    Log.i("","\n"+"[설 명 :: "+String.valueOf("이벤트 발생 전달")+"]");
+//                    Log.w("//===========//","================================================");
+//                    Log.i("---","---");
                     // [서버 : window.경로.close() 요청이 들어오면 Android 에서 JS로 바로 데이터를 보내준다]
-                    new Android_To_Javascript().mClose(UserIdx, courseId, date);//courseId, date
+                    startBeaconScan();
+                    if(currentToken != null) {
+                       // by 장유란, 휴대폰에서 생성된 토큰 전달
+                       new Android_To_Javascript().putToken(currentToken);
+                   }
                 }
             });
         }
@@ -728,7 +729,6 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
     }
 
     private void QrChecking() {
-
         Intent intent = new Intent(MainActivity.this,ScanQR.class);
         intent.setAction("android.QR_VIEW");
         startActivity(intent);
@@ -765,38 +765,17 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                 e.printStackTrace();
             }
         }
-        // [mClose - 자바스크립트 함수 데이터 전달]
-        public void mClose(String UserIdx, String courseId, String date){
-            try {
-                String returnData = currentDate;
-                Log.i("---","---");
-                Log.w("//===========//","================================================");
-                Log.i("","\n"+"[MainActivity >> mClose() [DATA] :: Android >> JS]");
-                Log.i("","\n"+"[JS 함수 :: "+String.valueOf("receive_Close")+"]");
-                Log.i("","\n"+"[전달할 데이터 :: "+String.valueOf(UserIdx+ " " +courseId + " " + date )+"]");
-                Log.i("","\n"+"[설 명 :: "+String.valueOf("닫기 결과 값 전송")+"]");
-                Log.w("//===========//","================================================");
-                Log.i("---","---");
-
-                // [서버 : function receive_Close(value) { }]
-                main_webview.loadUrl("javascript:qr_true('"+String.valueOf(returnData)+"')");
-            }
-            catch (Exception e){
-                e.printStackTrace();
-            }
-        }
 
         public void putToken(String currentToken) {
             try {
                 String returnData = currentToken;
-                Log.i("---","---");
-                Log.w("//===========//","================================================");
-                Log.i("","\n"+"[MainActivity >> mClose() [DATA] :: Android >> JS]");
-                Log.i("","\n"+"[JS 함수 :: "+String.valueOf("receive_token")+"]");
-                Log.i("","\n"+"[전달할 데이터 :: "+"currentToken"+"]");
-                Log.i("","\n"+"[설 명 :: "+String.valueOf("닫기 결과 값 전송")+"]");
-                Log.w("//===========//","================================================");
-                Log.i("---","---");
+//                Log.i("---","---");
+//                Log.w("//===========//","================================================");
+//                Log.i("","\n"+"[JS 함수 :: "+String.valueOf("receive_token")+"]");
+//                Log.i("","\n"+"[전달할 데이터 :: "+"currentToken"+"]");
+//                Log.i("","\n"+"[설 명 :: "+String.valueOf("닫기 결과 값 전송")+"]");
+//                Log.w("//===========//","================================================");
+//                Log.i("---","---");
 
                 // [서버 : function receive_Close(value) { }]
                 main_webview.loadUrl("javascript:receive_token('"+returnData+"')");
@@ -815,14 +794,14 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // [모바일 디바이스의 뒤로가기 키 이벤트가 발생한 경우]
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            Log.i("---","---");
-            Log.w("//===========//","================================================");
-            Log.i("","\n"+"[MainActivity >> onKeyDown() :: 백버튼 터치시 뒤로 가기 이벤트 실시]");
-            Log.i("","\n"+"[MAIN_URL :: "+String.valueOf(MAIN_URL)+"]");
-            Log.i("","\n"+"[getUrl() :: "+String.valueOf(main_webview.getUrl())+"]");
-            Log.i("","\n"+"[getOriginalUrl() :: "+String.valueOf(main_webview.getOriginalUrl())+"]");
-            Log.w("//===========//","================================================");
-            Log.i("---","---");
+//            Log.i("---","---");
+//            Log.w("//===========//","================================================");
+//            Log.i("","\n"+"[MainActivity >> onKeyDown() :: 백버튼 터치시 뒤로 가기 이벤트 실시]");
+//            Log.i("","\n"+"[MAIN_URL :: "+String.valueOf(MAIN_URL)+"]");
+//            Log.i("","\n"+"[getUrl() :: "+String.valueOf(main_webview.getUrl())+"]");
+//            Log.i("","\n"+"[getOriginalUrl() :: "+String.valueOf(main_webview.getOriginalUrl())+"]");
+//            Log.w("//===========//","================================================");
+//            Log.i("---","---");
             // [더이상 웹뷰에서 뒤로갈 페이지가 없을 경우 이거나 메인 로드 주소인 경우]
             if (main_webview.canGoBack() == false
                     || String.valueOf(main_webview.getUrl()).equals(MAIN_URL)
@@ -903,7 +882,6 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
     }
 
     public boolean beaconChecking() {
-
         //startBeaconSend(sendUuid, sendMajor, sendMinor);
         onBeaconServiceConnect();
         if (attendSwitch == 1) {
@@ -1033,11 +1011,10 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                 // [비콘이 감지되면 해당 함수가 호출]
                 // TODO [비콘들에 대응하는 Region 객체가 들어들어옴]
                 if (beacons.size() > 0) {
-
+                    attendSwitch = 1;
                     if (beaconList != null){
                         beaconList.clear();
                     }
-
                     for (Beacon beacon : beacons) {
                         if (beaconList != null){
                             beaconList.add(beacon);
@@ -1065,8 +1042,6 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
 
     Handler beaconScanHandler = new Handler() {
         public void handleMessage(Message msg) {
-            Log.i("", "Scan step5//////msg"+msg);
-
             try {
                 // [기존에 저장된 배열 데이터 초기화 실시]
                 if(beaconFormatList != null && beaconFormatList.size() > 0){
@@ -1114,26 +1089,20 @@ public class MainActivity  extends AppCompatActivity implements BeaconConsumer {
                 }
 
                 // [실시간 스캔된 비콘 정보 확인 실시]
-                Log.i("---","---");
-                Log.w("//===========//","================================================");
-                Log.i("","\n"+"["+String.valueOf(ACTIVITY_NAME)+" >> beaconScanHandler() :: 실시간 비콘 스캔 [전체] 정보 확인 실시]");
-                Log.i("","\n"+"[비콘 스캔 실행 횟수] "+" ["+String.valueOf(beaconScanCount)+"]");
-                Log.i("","\n"+"[비콘 스캔 개수 확인] "+" ["+String.valueOf(beaconFormatList.size())+"]");
-                Log.i("","\n"+"[비콘 스캔 정보 확인] [스캔 포맷 값] "+" ["+String.valueOf(beaconFormatList.toString())+"]");
-                Log.w("//===========//","================================================");
-                Log.i("---","---");
+//                Log.i("---","---");
+//                Log.w("//===========//","================================================");
+//                Log.i("","\n"+"["+String.valueOf(ACTIVITY_NAME)+" >> beaconScanHandler() :: 실시간 비콘 스캔 [전체] 정보 확인 실시]");
+//                Log.i("","\n"+"[비콘 스캔 실행 횟수] "+" ["+String.valueOf(beaconScanCount)+"]");
+//                Log.i("","\n"+"[비콘 스캔 개수 확인] "+" ["+String.valueOf(beaconFormatList.size())+"]");
+//                Log.i("","\n"+"[비콘 스캔 정보 확인] [스캔 포맷 값] "+" ["+String.valueOf(beaconFormatList.toString())+"]");
+//                Log.w("//===========//","================================================");
+//                Log.i("---","---");
 
                 if(Integer.parseInt(String.valueOf(beaconFormatList.size()))>=1){
                     attendSwitch = 1;
                 }else{
                     attendSwitch = 0;
                 }
-
-
-                // [자바스크립트로 데이터 전송 실시]
-                //new Android_To_Javascript().scanList(beaconFormatList.toString());
-                //TextView beacon_info = findViewById(R.id.beacon_info); // [비콘정보 출력]
-                //beacon_info.setText(beaconFormatList.toString());
 
                 // [비콘 스캔 카운트 증가]
                 beaconScanCount ++;
